@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  alphaserver:
+    build: .
+    restart: always
+    expose:
+      - 8000:8000
+    command: python3 run.py
+  

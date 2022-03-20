@@ -11,11 +11,12 @@ from watchdog.events import FileSystemEventHandler
 
 
 # >>>> Attributes
-os.environ['DATABASE_URL'] = constants.DATABASE_URL
-os.environ['DATABASE_NAME'] = constants.DATABASE_NAME
-
-
-
+# Better to keep the document based db in docker.
+os.environ['DATABASE_URL'] = "mongodb://alphaclient:ssh6monitor@mongodb:27017/"
+os.environ['DATABASE_NAME'] = 'alpha'
+SSH_LOGIN_COLLECTION = "SSHLogins"
+FILE_POINTER_COLLECTION = "FilePointer"
+FOLDER_PATH = "alphaclient/"
 
 
 # >>>> Handler class
@@ -43,7 +44,7 @@ class MyHandler(FileSystemEventHandler):
             client = MongoClient(os.environ.get('DATABASE_URL'))
             dblist = client.list_database_names()
             mydb = client[os.environ.get('DATABASE_NAME')]
-            myPointer = mydb[constants.FILE_POINTER_COLLECTION]
+            myPointer = mydb[FILE_POINTER_COLLECTION]
             return myPointer
 
         except Exception as error:
@@ -72,7 +73,7 @@ class MyHandler(FileSystemEventHandler):
             dblist = client.list_database_names()
             if os.environ.get('DATABASE_NAME') in dblist:
                 mydb = client[os.environ.get('DATABASE_NAME')]
-                ssh_logins = mydb[constants.SSH_LOGIN_COLLECTION]
+                ssh_logins = mydb[SSH_LOGIN_COLLECTION]
                 all_ssh_records = [item for item in ssh_logins.find()]
                 if date in all_ssh_records[0]:
                     all_ssh_records = all_ssh_records[0]
@@ -149,7 +150,7 @@ def initialise_db():
         mydb = client[os.environ.get('DATABASE_NAME')]
         # Automatic setup of the collection initially
         pointer = { 'pointer': 0 }
-        pointer_collection = mydb[constants.FILE_POINTER_COLLECTION]
+        pointer_collection = mydb[FILE_POINTER_COLLECTION]
         isCollection = pointer_collection.find()
         isCollection = [x for x in isCollection]
         if not isCollection:
@@ -158,7 +159,7 @@ def initialise_db():
                 return False
         
         count = { date: 0 }
-        ssh_collection = mydb[constants.SSH_LOGIN_COLLECTION]
+        ssh_collection = mydb[SSH_LOGIN_COLLECTION]
         isSSHCollection = ssh_collection.find()
         isSSHCollection = [x for x in isSSHCollection]
         if not isSSHCollection:
@@ -184,7 +185,7 @@ if __name__ == "__main__":
 
     isDBInitialised = initialise_db()
     if isDBInitialised:
-        folder = os.path.abspath(constants.FOLDER_PATH)    
+        folder = os.path.abspath(FOLDER_PATH)    
         # below only added the file as path
         event_handler = MyHandler()
         observer = Observer()

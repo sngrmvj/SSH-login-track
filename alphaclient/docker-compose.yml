@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  alphaclient:
+    build: .
+    restart: always
+    expose:
+      - "5000"
+    environment:
+      - DATABASE_URL=mongodb://alphaclient:ssh6monitor@mongodb:27017/
+      - DATABASE_NAME=alpha
+    depends_on:
+      - mongodb
+    command: python3 client_wsgi.py
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - db-data:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=alpha
+      - MONGO_INITDB_ROOT_USERNAME=alphaclient
+      - MONGO_INITDB_ROOT_PASSWORD=ssh6monitor
+volumes:
+  db-data:

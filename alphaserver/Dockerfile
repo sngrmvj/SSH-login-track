@@ -9,10 +9,10 @@ WORKDIR /app
 
 # install dependencies
 RUN pip install --upgrade pip 
-COPY client_wsgi.py /app/client_wsgi.py
+COPY run.py /app/run.py
 COPY constants.py /app/constants.py
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
 # Expose the port
-EXPOSE 5000
+EXPOSE 8000
