@@ -17,7 +17,7 @@ async def get_ssh_count(host,date):
 
 
 @app.get("/sshcount/all/{date}")
-async def get_ssh_count(date):
+async def get_all_servers_ssh_count(date):
     # Please pass the date as string in YYYY-MM-DD
 
     all_hosts_ssh_attempts = {}

@@ -2070,3 +2070,4 @@ Mar 29 17:37:18 ip-10-77-20-248 systemd-logind[1118]: New session 115 of user el
 Mar 29 17:37:18 ip-10-77-20-248 sshd[4929]: Received disconnect from 24.151.103.17 port 50686:11: disconnected by user
 Mar 29 17:37:18 ip-10-77-20-248 sshd[4929]: Disconnected from 24.151.103.17 port 50686
 Mar 29 17:37:18 ip-10-77-20-248 sshd[4890]: pam_unix(sshd:session): session closed for user elastic_user_9
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4890]: pam_unix(sshd:session): session closed for user elastic_user_9

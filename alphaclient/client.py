@@ -12,7 +12,9 @@ from watchdog.events import FileSystemEventHandler
 
 # >>>> Attributes
 # Better to keep the document based db in docker.
-os.environ['DATABASE_URL'] = "mongodb://alphaclient:ssh6monitor@mongodb:27017/"
+# os.environ['DATABASE_URL'] = "mongodb://alphaclient:ssh6monitor@mongodb:27017/"
+# For local
+os.environ['DATABASE_URL'] = "mongodb://localhost:27017/"
 os.environ['DATABASE_NAME'] = 'alpha'
 SSH_LOGIN_COLLECTION = "SSHLogins"
 FILE_POINTER_COLLECTION = "FilePointer"
