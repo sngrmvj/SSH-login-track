@@ -2061,3 +2061,12 @@ Mar 29 17:17:01 ip-10-77-20-248 CRON[4755]: pam_unix(cron:session): session open
 Mar 29 17:17:01 ip-10-77-20-248 CRON[4755]: pam_unix(cron:session): session closed for user root
 Mar 29 17:20:59 ip-10-77-20-248 sshd[4758]: Accepted password for elastic_user_2 from 85.245.107.41 port 54870 ssh2
 Mar 29 17:20:59 ip-10-77-20-248 sshd[4758]: Accepted password for elastic_user_2 from 85.245.107.41 port 54870 ssh2
+Mar 29 17:33:17 ip-10-77-20-248 sshd[4888]: Failed password for elastic_user_6 from 85.245.107.41 port 54957 ssh2
+Mar 29 17:33:17 ip-10-77-20-248 sshd[4888]: Connection closed by 85.245.107.41 port 54957 [preauth]
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4890]: Accepted password for elastic_user_9 from 24.151.103.17 port 50686 ssh2
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4890]: pam_unix(sshd:session): session opened for user elastic_user_9 by (uid=0)
+Mar 29 17:37:18 ip-10-77-20-248 systemd: pam_unix(systemd-user:session): session opened for user elastic_user_9 by (uid=0)
+Mar 29 17:37:18 ip-10-77-20-248 systemd-logind[1118]: New session 115 of user elastic_user_9.
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4929]: Received disconnect from 24.151.103.17 port 50686:11: disconnected by user
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4929]: Disconnected from 24.151.103.17 port 50686
+Mar 29 17:37:18 ip-10-77-20-248 sshd[4890]: pam_unix(sshd:session): session closed for user elastic_user_9
