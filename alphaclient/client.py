@@ -3,13 +3,22 @@ import sys, os, re
 import subprocess
 from datetime import datetime
 from pymongo import MongoClient
+import constants
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 
-os.environ['DATABASE_URL'] = 'mongodb://localhost:27017/'
-os.environ['DATABASE_NAME'] = "alpha"
 
+
+# >>>> Attributes
+os.environ['DATABASE_URL'] = constants.DATABASE_URL
+os.environ['DATABASE_NAME'] = constants.DATABASE_NAME
+
+
+
+
+
+# >>>> Handler class
 class MyHandler(FileSystemEventHandler):
 
     FILENAME ="auth.log"
@@ -34,7 +43,7 @@ class MyHandler(FileSystemEventHandler):
             client = MongoClient(os.environ.get('DATABASE_URL'))
             dblist = client.list_database_names()
             mydb = client[os.environ.get('DATABASE_NAME')]
-            myPointer = mydb['FilePointer']
+            myPointer = mydb[constants.FILE_POINTER_COLLECTION]
             return myPointer
 
         except Exception as error:
@@ -63,7 +72,7 @@ class MyHandler(FileSystemEventHandler):
             dblist = client.list_database_names()
             if os.environ.get('DATABASE_NAME') in dblist:
                 mydb = client[os.environ.get('DATABASE_NAME')]
-                ssh_logins = mydb['SSHLogins']
+                ssh_logins = mydb[constants.SSH_LOGIN_COLLECTION]
                 all_ssh_records = [item for item in ssh_logins.find()]
                 if date in all_ssh_records[0]:
                     all_ssh_records = all_ssh_records[0]
@@ -137,17 +146,19 @@ def initialise_db():
         # Creating a client
         date  = str(datetime.now().date())
         client = MongoClient(os.environ.get('DATABASE_URL'))
-        pointer = { 'pointer': 0 }
-        count = { date: 0 }
         mydb = client[os.environ.get('DATABASE_NAME')]
-        pointer_collection = mydb['FilePointer']
-        ssh_collection = mydb['SSHLogins']
+        # Automatic setup of the collection initially
+        pointer = { 'pointer': 0 }
+        pointer_collection = mydb[constants.FILE_POINTER_COLLECTION]
         isCollection = pointer_collection.find()
         isCollection = [x for x in isCollection]
         if not isCollection:
             pointerdoc = pointer_collection.insert_one(pointer)
             if not pointerdoc.inserted_id:
                 return False
+        
+        count = { date: 0 }
+        ssh_collection = mydb[constants.SSH_LOGIN_COLLECTION]
         isSSHCollection = ssh_collection.find()
         isSSHCollection = [x for x in isSSHCollection]
         if not isSSHCollection:
@@ -159,14 +170,21 @@ def initialise_db():
     except Exception as error:
         print(f"Error while initilising the db - {error}")
     
+
+
+
+
 # ----------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------
+
 
 
 if __name__ == "__main__":
 
     isDBInitialised = initialise_db()
     if isDBInitialised:
-        folder = os.path.abspath("alphaclient/")    
+        folder = os.path.abspath(constants.FOLDER_PATH)    
         # below only added the file as path
         event_handler = MyHandler()
         observer = Observer()

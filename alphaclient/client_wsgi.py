@@ -5,13 +5,14 @@ import os
 from datetime import datetime
 from flask import Flask, Response, json, request
 from pymongo import MongoClient
+import constants
 
 
 app = Flask(__name__)
 
-os.environ['DATABASE_URL'] = 'mongodb://localhost:27017/'
-os.environ['DATABASE_NAME'] = "alpha"
-os.environ['SSHLOGINS_COLLECTION'] = "SSHLogins"
+os.environ['DATABASE_URL'] = constants.DATABASE_URL
+os.environ['DATABASE_NAME'] = constants.DATABASE_NAME
+os.environ['SSHLOGINS_COLLECTION'] = constants.SSH_LOGIN_COLLECTION
 
 @app.route("/",methods=['GET'])
 def get_login_count():
