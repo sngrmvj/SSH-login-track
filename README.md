@@ -38,6 +38,8 @@ Alpha-client-server
 - Commands
     - `python3 client.py` and provide the path of the log file and it works.
     - `docker-compose up` to run the wsgi and mongodb (optional) or provide the requirements and run `python3 client_wsgi.py`
+    - Rest api URL
+        - > http://127.0.0.1:5000/
 
 
 ---
